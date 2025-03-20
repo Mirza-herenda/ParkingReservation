@@ -1,0 +1,67 @@
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../static_assets/LogInBackground.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard styles */
+.dashboard-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-area {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+}
+
+.navbar {
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-nav {
+    margin: 0 auto;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.5rem;
+}
+
+/* Reset body styles for dashboard */
+body.dashboard {
+    height: auto;
+    display: block;
+    background-image: none;
+    background-color: #f8f9fa;
+}
+.footer {
+    flex-shrink: 0 !important; /* Prevent footer from shrinking */
+    background-color: #1D3C6E  !important;
+    color: white;
+    padding: 10px 0 !important;
+    width: 100%;
+    position: fixed !important;
+    bottom: 0;
+}

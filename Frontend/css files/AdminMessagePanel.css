@@ -1,0 +1,8 @@
+.card-custom{
+    background: white;
+    border: 0.2px solid #1D3C6E !important;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid #ddd;
+}
