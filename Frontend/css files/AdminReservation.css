@@ -1,0 +1,33 @@
+.card-custom {
+    background: white;
+    border: 0.2px solid #1D3C6E !important;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid #ddd;
+}
+/* Ensure card-custom doesn’t override table styling */
+.card-custom {
+    background: white;
+    border: 0.2px solid #1D3C6E !important;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid #ddd;
+}
+
+/* Optional: Style for highlighted rows (if you want to keep .highlight) */
+.highlight {
+    background-color: #f8d7da; /* Light red for highlighted rows, adjust as needed */
+}
+
+/* Ensure table header matches your color scheme */
+.table-dark {
+    background-color: #1D3C6E;
+    color: white;
+}
+
+/* Alternating row color */
+.table-light {
+    background-color: #e9ecef; /* Light gray for even rows */
+}

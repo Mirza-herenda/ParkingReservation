@@ -1,0 +1,19 @@
+body {
+    background-color: #f8f9fa;
+}
+.card-custom {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+.btn-custom {
+    background-color: #1D3C6E;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
