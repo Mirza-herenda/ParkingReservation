@@ -16,91 +16,91 @@ $messagesDao = new MessagesDao();
 
 
 
-                                          // INSERT
-// $userDao->insert([
+                                          INSERT
+$userDao->insert([
     
-//     'name' => 'Mirza',
-//     'surname'=>'herenda',
-//     'email' => 'mirza1herenda@example.com',
-//     'password' => password_hash('password123', PASSWORD_DEFAULT),
-//     'role' => 'user'
-// ]);
+    'name' => 'Mirza',
+    'surname'=>'herenda',
+    'email' => 'mirza1herenda@example.com',
+    'password' => password_hash('password123', PASSWORD_DEFAULT),
+    'role' => 'user'
+]);
 
 
-// $reservationDao->insert([
-//     'user_id' => 1,
-//     'parkingSpot_id' => 1, 
-//     'dateAndTime' => '2025-03-30 18:00:00',
-//     'zone' => 1, // Primer zone
-//     'location' => "radnicka 4", 
-//     'duration' => 2, 
-//     'price' => 2 
-// ]);
+$reservationDao->insert([
+    'user_id' => 1,
+    'parkingSpot_id' => 1, 
+    'dateAndTime' => '2025-03-30 18:00:00',
+    'zone' => 1, // Primer zone
+    'location' => "radnicka 4", 
+    'duration' => 2, 
+    'price' => 2 
+]);
 
-// //insert new zone
-// $zoneDao->insert([
-//     'id' => 11,
-//     'ZoneName' => "zone2", 
-//     'zoneCapacity' => 80,
-//     'zoneNumber' => 3, 
-//     'zonePrice' => 3,
-//     'location' => "ferhadija bb",
+//insert new zone
+$zoneDao->insert([
+    'id' => 11,
+    'ZoneName' => "zone2", 
+    'zoneCapacity' => 80,
+    'zoneNumber' => 3, 
+    'zonePrice' => 3,
+    'location' => "ferhadija bb",
    
-// ]);
+]);
 
 
   
-// $messagesDao->insert([
-//     'id' => 2,
-//     'emailAdress' => "mirzaherenda@gmail.com", 
-//     'title' => 'auto osteceno',
-//     'message' => "moje auto je u losem stanju", // Primer zone
-//     'time' => "2025-03-30 18:00:00", // Primer lokacije
-//     'user_id' => 8, // Primer trajanja u satima
+$messagesDao->insert([
+    'id' => 2,
+    'emailAdress' => "mirzaherenda@gmail.com", 
+    'title' => 'auto osteceno',
+    'message' => "moje auto je u losem stanju", // Primer zone
+    'time' => "2025-03-30 18:00:00", // Primer lokacije
+    'user_id' => 8, // Primer trajanja u satima
    
-//  ]);
-// $parkingspotDao->insert([
-//     'id' =>11,
-//     'zona'=>11,
-//     'status' => "reserved",
+ ]);
+$parkingspotDao->insert([
+    'id' =>11,
+    'zona'=>11,
+    'status' => "reserved",
    
-// ]);
+]);
 
 
-                                                     //get
+                                                     get
 
-// $users = $userDao->getAll();
-// print_r($users);
+$users = $userDao->getAll();
+print_r($users);
 
-// $reservation = $reservationDao->getAll();
-// print_r($reservation);
+$reservation = $reservationDao->getAll();
+print_r($reservation);
 
-// $zone = $zoneDao->getAll();
-// print_r($zone);
+$zone = $zoneDao->getAll();
+print_r($zone);
 
-// $messages = $messagesDao->getAll();
-// print_r($messages);
+$messages = $messagesDao->getAll();
+print_r($messages);
 
-// $parkingspot = $parkingspotDao->getAll();
-// print_r($parkingspot);
-
-
-
-                                                    //UPDATE
-
-// $userDao->update(1, [
-//     'name' => 'John Updated SECOND',
-//     'email' => 'john_updated2@example.com'
-// ]);
-// echo "user  updated successfully.\n";
+$parkingspot = $parkingspotDao->getAll();
+print_r($parkingspot);
 
 
-// $reservationDao->update(2, [
+
+                                                    UPDATE
+
+$userDao->update(1, [
+    'name' => 'John Updated SECOND',
+    'email' => 'john_updated2@example.com'
+]);
+echo "user  updated successfully.\n";
+
+
+$reservationDao->update(2, [
     
-//     'duration' => 14,
-//     'location' => 'mula mehmeda bazerdzica 4',
-// ]);
-// echo "Reservation updated successfully.\n";
+    'duration' => 14,
+    'location' => 'mula mehmeda bazerdzica 4',
+]);
+echo "Reservation updated successfully.\n";
 
 
 
