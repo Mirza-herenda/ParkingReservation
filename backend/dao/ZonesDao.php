@@ -31,18 +31,17 @@ class zonesDao extends BaseDao {
     }
 
     // Update an existing reservation
-    public function update($id, $data) {
+    public function update($entity, $id, $id_column = "id") {
         $fields = "";
-        foreach ($data as $key => $value) {
+        foreach ($entity as $key => $value) {
             $fields .= "$key = :$key, ";
         }
         $fields = rtrim($fields, ", ");
-        $sql = "UPDATE zones SET $fields WHERE id = :id";
+        $sql = "UPDATE zones SET $fields WHERE $id_column = :id";
         $stmt = $this->connection->prepare($sql);
-        $data['id'] = $id;
-        return $stmt->execute($data);
+        $entity['id'] = $id;
+        return $stmt->execute($entity);
     }
-
     // Delete a reservation by ID
     public function delete($id) {
         $stmt = $this->connection->prepare("DELETE FROM zones WHERE id = :id");
