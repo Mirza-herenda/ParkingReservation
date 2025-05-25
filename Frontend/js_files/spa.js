@@ -1,3 +1,5 @@
+  
+
 let userRole = localStorage.getItem("userRole");
 
 if (userRole) {
@@ -7,8 +9,8 @@ if (userRole) {
 class SPA {
   constructor() {
     this.routes = {
-      login: "Frontend/HTML_templates_views/login.html",
-      register: "Frontend/HTML_templates_views/registration.html",
+      "login": "Frontend/HTML_templates_views/login.html",
+      "register": "Frontend/HTML_templates_views/registration.html",
       "user-home": "Frontend/HTML_templates_views/HomePage.html",
       "user-personal":
         "Frontend/HTML_templates_views/HomeScreenMojiPodaci.html",
@@ -113,7 +115,12 @@ class SPA {
   }
 
   attachEventHandlers(route) {
+    if(route === "admin-home") {
+    console.log("Loading users for admin...");
+      RestClient.loadAllUsers();
+    }
     if (route === "user-home") {
+   
       window.calculatePrice = function () {
         const start = parseInt(document.getElementById("start").value) || 0;
         const end = parseInt(document.getElementById("end").value) || 0;
@@ -127,7 +134,15 @@ class SPA {
       };
     }
 
+  if (route === "user-home") {
+  const userId = localStorage.getItem("userId"); // ✅ izvučeno iz localStorage
+  RestClient.getSingleUser(userId);
+  console.log("Loading user data for user-home...",userId);
+  RestClient.getReservationsByUserId(userId);
+}
     if (route === "admin-home") {
+
+      console.log("Loading admin home...");
       // Chart initialization
       const labels = [
         "January",
@@ -167,6 +182,7 @@ class SPA {
           },
         },
       };
+      RestClient.getZoneInformations()
 
       const canvas = document.getElementById("myChart");
       if (canvas) {
@@ -183,7 +199,48 @@ class SPA {
       window.deleteRow = function (button) {
         button.closest("tr").remove();
       };
+    }else{
+      console.log("No specific event handlers for this route.");
     }
+
+    if(route === "admin-messages") {
+      console.log("Loading messages for admin...");
+      RestClient.getAllMessages();
+    }
+      // Load messages when admin-messages route is accessed
+    if (route === "admin-reservations") {
+      // Load reservations when admin-reservations route is accessed
+      console.log("Loading reservations for admin...");
+      RestClient.loadReservations();
+      
+      // You can add additional event handlers specific to admin reservations here
+      // For example, handling cancel or details buttons
+      document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('btn-danger')) {
+          // Handle cancel button click
+          const reservationId = e.target.dataset.id; // You'd need to add this data attribute
+          if (confirm('Are you sure you want to cancel this reservation?')) {
+            RestClient.delete(`parkingreservations/${reservationId}`, {}, 
+              function() {
+                // Success callback - refresh the list
+                RestClient.loadReservations();
+              },
+              function(err) {
+                console.error('Error cancelling reservation:', err);
+                alert('Failed to cancel reservation');
+              }
+            );
+          }
+        }
+        
+        if (e.target && e.target.classList.contains('btn-primary')) {
+          // Handle details button click
+          const reservationId = e.target.dataset.id;
+          // Implement details view logic here
+        }
+      });
+    }
+  
   }
 
   navigate(route) {
