@@ -22,7 +22,6 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Parking Panel</h1>
 
         <!-- OVO DODATO: table-responsive da omogući skrolovanje na mobilnim -->
         <div class="card-custom mt-3 p-3 border rounded text-center">
@@ -31,72 +30,17 @@
                 <table class="table table-bordered">
                     <thead class="table">
                         <tr>
-                            <th>Driver Name</th>
-                            <th>Numberplate</th>
+                            <th>Driver ID</th>
+                            <th>Email</th>
                          
-                            <th>Message</th>
-                            <th></th>
-                            <th></th>
+                            <th>title</th>
+                            <th>full message</th>
+                            <th>date and time</th>
                             
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Unknown</td>
-                            <td>E46-A-342</td>
-                           
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr class="table-light">
-                            <td>Jane Doe</td>
-                            <td>A00-A-000</td>
-                            
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Unknown</td>
-                            <td>E46-A-342</td>
-                            
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr class="table-light">
-                            <td>Jane Doe</td>
-                            <td>A00-A-000</td>
-                           
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr class="table-light">
-                            <td>Jane Doe</td>
-                            <td>A00-A-000</td>
-                           
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr class="table-light">
-                            <td>Jane Doe</td>
-                            <td>A00-A-000</td>
-                            
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
-                        <tr class="table-light">
-                            <td>Jane Doe</td>
-                            <td>A00-A-000</td>
-                            
-                            <td>lorem ipsum</td>
-                            <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                            <td><button class="btn btn-sm btn-warning" onclick="deleteRow(this)"><i class="bi-pen"></i></button></td>
-                        </tr>
+                    <tbody id="messageTable">
+                       
                     </tbody>
                 </table>
             </div>

@@ -21,6 +21,15 @@ class UserService extends BaseService {
         return $this->dao->add($data);
     }
 
+public function update_user($id, $data) {
+    error_log("Update user $id: " . json_encode($data)); // LOG
+    if (empty($id) || empty($data)) {
+        throw new Exception("Missing user ID or data.");
+    }
+
+    return $this->dao->update_user($id, $data);
+}
+
     public function login_user($email, $password) {
         if (empty($email) || empty($password)) {
             throw new Exception("Email and password are required.");

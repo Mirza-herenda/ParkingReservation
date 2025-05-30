@@ -14,10 +14,7 @@
 </head>
 <body>
     <div class="container-fluid mt-2">
-        <div class="mb-4 d-flex">
-            <button class="btn me-2" style="background-color:#1D3C6E; color: white;">Zone 1</button>
-            <button class="btn" style="background-color:#1D3C6E; color: white;">Zone 2</button>
-        </div>
+        
         <div class="row">
             <!-- Leva strana - Zone Management -->
             <div class="col-lg-2 col-md-4">
@@ -28,13 +25,8 @@
                 </div>
                 <div class="card-custom p-3 border rounded mt-2">
                     <h5>Zone Management</h5>
-                    <label for="zoneName" class="form-label">Zone Name </label>
-                    <input type="text" class="form-control mb-2" id="zoneName" value="Zone 1" disabled>
-                    <label for="zoneCapacity" class="form-label">Zone Capacity</label>
-                    <input type="number" class="form-control mb-2" id="zoneCapacity" placeholder="Enter Capacity" value="100">
-                    <label for="zonePrice" class="form-label">Price per Hour</label>
-                    <input type="number" class="form-control mb-2" id="zonePrice" placeholder="Enter Price" value="5">
-                    <button class="btn w-100" style="background-color:#1D3C6E;color: white;">Update Zone</button>
+                  <div id="zoneTable"></div>
+
                 </div>
             </div>
     
@@ -49,48 +41,21 @@
             <!-- Desna strana - Lista automobila -->
             <div class="col-lg-5 col-md-6">
                 <div class="card-custom p-3 border rounded">
-                    <h5>List of Parked Cars</h5>
+                    <h5>List of All Users</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Driver Name</th>
+                                    <th>Email</th>
                                     <th>Numberplate</th>
-                                    <th>Parked for</th>
-                                    <th>Reservation</th>
+                                   
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Unknown</td>
-                                    <td>E46-A-342</td>
-                                    <td>00h32min</td>
-                                    <td>None</td>
-                                    <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Doe</td>
-                                    <td>A00-A-000</td>
-                                    <td>00h32min</td>
-                                    <td>00h50min</td>
-                                    <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                                </tr>
-                                <tr class="highlight">
-                                    <td>Unknown</td>
-                                    <td>E46-A-342</td>
-                                    <td>00h34min</td>
-                                    <td>04h00min</td>
-                                    <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                                </tr>
-                                <tr class="highlight">
-                                    <td>Jane Doe</td>
-                                    <td>A00-A-000</td>
-                                    <td>03h24min</td>
-                                    <td>03h00min</td>
-                                    <td><button class="btn btn-sm btn-danger" onclick="deleteRow(this)"><i class="bi-trash"></i></button></td>
-                                </tr>
-                            </tbody>
+                            <tbody id="users-table-body">
+    <!-- Redovi će se učitati dinamički -->
+</tbody>
                         </table>
                     </div>
                 </div>

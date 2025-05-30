@@ -1,5 +1,10 @@
 {"require": {
         "mikecao/flight": "^3.15",
                 "zircote/swagger-php": "^5.1",
+<<<<<<< HEAD
                 "doctrine/annotations": "^2.0"
+=======
+                "doctrine/annotations": "^2.0",
+                "firebase/php-jwt": "^6.11"
+>>>>>>> c6c98a4 (crud operations for milestone 4,adding auth,and autorization)
     }}
