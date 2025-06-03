@@ -19,16 +19,23 @@ Flight::group('/parkingspots', function() {
     });
 
     // POST create new parking spot
-  Flight::route('POST /create', function() {
+Flight::route('POST /create', function() {
     $data = Flight::request()->data->getData();
-    $newId = Flight::parking_spot_service()->create_parking_spot($data);
-    // Pretpostavimo da insert vraća ID novog reda:
-    $newSpot = Flight::parking_spot_service()->get_by_id($newId);
-    Flight::json([
-        'success' => true,
-        'data' => $newSpot
-    ], 201);
+    
+    try {
+        $newId = Flight::parking_spot_service()->create_parking_spot($data);
+        $newSpot = Flight::parking_spot_service()->get_by_id($newId);
+
+        Flight::json([
+            'success' => true,
+            'data' => $newSpot
+        ], 201);
+
+    } catch (Exception $e) {
+        Flight::halt(500, json_encode(["error" => $e->getMessage()]));
+    }
 });
+
 
 
     // PUT update parking spot

@@ -5,106 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezervacija Parking Mjesta</title>
     <link rel="stylesheet" href="../../Frontend/css files/AdminHomePanel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
     <!-- ✅ Bootstrap CSS -->
     <link 
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
         rel="stylesheet">
     
-
+    <style>
+        .card-custom {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #eaeaea;
+            transition: all 0.3s ease;
+        }
+        
+        .card-custom:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .user-info-table {
+            width: 100%;
+        }
+        
+        .user-info-table td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .user-info-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .user-info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .page-title {
+            color: #3a3a3a;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom:hover {
+            background-color: #0069d9;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container mt-5">
+    <div class="container mt-4">
+        <h2 class="text-center page-title">Sistem za Rezervaciju Parking Mjesta</h2>
+        
         <div class="row g-4">
-            <!-- ✅ User Data -->
-            <div class="col-md-4">
-                <div class="card-custom p-3">
-                    <h4 class="text-center">Moji Podaci</h4>
-                    <table class="user-form-container" id="user-form-container">
-                      
+            <!-- ✅ User Data - Made wider -->
+            <div class="col-md-6">
+                <div class="card-custom p-4">
+                    <h4 class="text-center mb-3">Moji Podaci</h4>
+                    <table class="user-info-table" id="user-form-container">
+                        <tr>
+                            <td class="user-info-label">Ime i Prezime:</td>
+                            <td id="user-name">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Email Adresa:</td>
+                            <td id="user-email">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Broj Telefona:</td>
+                            <td id="user-phone">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Registracija Vozila:</td>
+                            <td id="user-vehicle">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Članstvo:</td>
+                            <td id="user-membership">Standardno</td>
+                        </tr>
                     </table>
-                  
                 </div>
             </div>
             
-            <!-- ✅ Parking Reservation -->
-           <div class="col-md-4">
-                <form class="card-custom p-3" id="parking-spot-form">
-                    <h5 class="text-center">Rezervacija Parking Mjesta</h5>
-                    <p><strong>Lokacija:</strong> Grbavička 34</p>
-                    <p><strong>Email podrške:</strong> <a href="mailto:support@parkiraj.me">support@parkiraj.me</a></p>
-                     <p id="status"><strong>status:</strong> <a href="mailto:support@parkiraj.me" style="color: green;">Available</a></p>
-                     
+            <!-- ✅ Parking Reservation - Adjusted size -->
+           <div class="col-md-6">
+                <form class="card-custom p-4" id="parking-spot-form">
+                    <h4 class="text-center mb-3">Rezervacija Parking Mjesta</h4>
+                    <div class="mb-3">
+                        <p><strong>Lokacija:</strong> Grbavička 34</p>
+                        <p><strong>Email podrške:</strong> <a href="mailto:support@parkiraj.me">support@parkiraj.me</a></p>
+                        <p id="status"><strong>Status:</strong> <span style="color: green; font-weight: bold;">Available</span></p>
+                    </div>
                     
                     <!-- Zone Selection -->
-                    <label for="zone">Zona:</label>
-                    <select id="zone" class="form-control mb-2" onchange="calculatePrice()">
-                        <option value="1">Zone 1</option>
-                        <option value="2">Zone 2</option>
-                        <option value="3">Zone 3</option>
-                    </select>
-                    
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="duration" id="duration1h" value="1" checked onchange="calculatePrice()">
-                        <label class="form-check-label" for="duration1h">1h</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="duration" id="duration2h" value="2" onchange="calculatePrice()">
-                        <label class="form-check-label" for="duration2h">2h</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="duration" id="durationHalf" value="6" onchange="calculatePrice()">
-                        <label class="form-check-label" for="durationHalf">Poludnevna (6h)</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="duration" id="durationFull" value="12" onchange="calculatePrice()">
-                        <label class="form-check-label" for="durationFull">Dnevna (12h)</label>
+                    <div class="mb-3">
+                        <label for="zone" class="form-label">Zona:</label>
+                        <select id="zone" class="form-select" onchange="calculatePrice()">
+                            <option id="zone" value="1">1</option>
+                        </select>
                     </div>
                     
-                    <h3 class="text-center mt-3" id="totalPrice">2 KM</h3>
-                  <button class="btn btn-custom" onclick="saveUserData()">Spasi</button>
-
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="duration1h" value="1" checked onchange="calculatePrice()">
+                            <label class="form-check-label" for="duration1h">1h</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="duration2h" value="2" onchange="calculatePrice()">
+                            <label class="form-check-label" for="duration2h">2h</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="durationHalf" value="6" onchange="calculatePrice()">
+                            <label class="form-check-label" for="durationHalf">Poludnevna (6h)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="durationFull" value="12" onchange="calculatePrice()">
+                            <label class="form-check-label" for="durationFull">Dnevna (12h)</label>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-center my-3" id="totalPrice">2 KM</h3>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-custom" onclick="saveUserData()">Rezerviši</button>
+                    </div>
                 </form>
             </div>
             
-            <!-- ✅ Last Reservations -->
-            <div class="col-md-4">
-                <div class="card-custom p-2">
-                    <h5 class="text-center">Moje Zadnje Rezervacije</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Adresa</th>
-                                <th>Sat</th>
-                                <th>Cijena</th>
-                              
-                                <th></th>
-
-                            </tr>
-                        </thead>
-                        <tbody id="reservation-table">
-                            
-                        </tbody>
-                    </table>
-                   
+            <!-- ✅ Last Reservations - Full width -->
+            <div class="col-12 mt-4">
+                <div class="card-custom p-4">
+                    <h4 class="text-center mb-3">Moje Zadnje Rezervacije</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Adresa</th>
+                                    <th>Datum</th>
+                                   
+                                    <th>Cijena</th>
+                                   
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservation-table">
+                                <!-- Reservation data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            
-          
-            
         </div>
     </div>
-
-
-<script>
-
-
-
-</script>
-
-
-    
 
     <!-- ✅ Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

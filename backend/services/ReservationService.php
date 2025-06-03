@@ -9,6 +9,9 @@ class ReservationService extends BaseService {
         parent::__construct(new ReservationDao());
     }
 
+      public function get_all_reservations() {
+        return $this->dao->getAll();
+    }
     public function create_reservation($data) {
         if (empty($data['user_id']) || empty($data['parkingSpot_id']) || empty($data['dateAndTime'])) {
             throw new Exception("Missing required fields: user_id, parkingSpot_id, or dateAndTime.");

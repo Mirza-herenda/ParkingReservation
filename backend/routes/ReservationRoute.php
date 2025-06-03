@@ -81,6 +81,15 @@ Flight::group('/parkingreservations', function() {
  *     )
  * )
  */
+
+     Flight::route('GET /', function() {
+        try {
+            $reservations = Flight::parking_reservation_service()->get_all_reservations();
+            Flight::json($reservations);
+        } catch (Exception $e) {
+            Flight::json(['error' => $e->getMessage()], 500);
+        }
+    });
 Flight::route('GET /user/@user_id', function($user_id) {
     try {
         $reservations = Flight::parking_reservation_service()->get_reservations_by_user_id($user_id);
@@ -124,10 +133,31 @@ Flight::route('GET /details/full', function() {
      *     )
      * )
      */
-    Flight::route('POST /create', function() {
+   Flight::route('POST /create', function() {
+    try {
+        // Get the request data
         $data = Flight::request()->data->getData();
-        Flight::json(Flight::parking_reservation_service()->create_reservation($data));
-    });
+        
+        // Log the data for debugging
+        error_log("Received reservation data: " . json_encode($data));
+        
+        // Call the service to create the reservation
+        $insertedId = Flight::parking_reservation_service()->create_reservation($data);
+        
+        // Return success response
+        Flight::json([
+            "success" => true,
+            "id" => $insertedId,
+            "message" => "Reservation created successfully"
+        ]);
+    } catch (Exception $e) {
+        // Return error response
+        Flight::json([
+            "success" => false,
+            "message" => $e->getMessage()
+        ], 400);
+    }
+});
 
     /**
      * @OA\Put(

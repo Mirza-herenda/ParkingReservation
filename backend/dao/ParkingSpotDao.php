@@ -11,7 +11,7 @@ class parkingspotDao extends BaseDao {
         $stmt = $this->connection->prepare("SELECT * FROM parkingspot WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetch();
+        return $this->dao->getById($id);
     }
 
     // Get all parkingspot
@@ -22,13 +22,15 @@ class parkingspotDao extends BaseDao {
     }
 
     // Insert a new reservation
-    public function insert($data) {
-        $columns = implode(", ", array_keys($data));
-        $placeholders = ":" . implode(", :", array_keys($data));
-        $sql = "INSERT INTO parkingspot ($columns) VALUES ($placeholders)";
-        $stmt = $this->connection->prepare($sql);
-        return $stmt->execute($data);
-    }
+public function insert($data) {
+    $columns = implode(", ", array_keys($data));
+    $placeholders = ":" . implode(", :", array_keys($data));
+    $sql = "INSERT INTO parkingspot ($columns) VALUES ($placeholders)";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->execute($data);
+    return $this->connection->lastInsertId();  // << OVO DODAJ
+}
+
 
     // Update an existing reservation
     public function update($entity, $id, $id_column = "id") {

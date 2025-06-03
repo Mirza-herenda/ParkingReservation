@@ -1,19 +1,56 @@
 body {
-    background-color: #f8f9fa;
+    background: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
 }
 .card-custom {
     background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 .btn-custom {
-    background-color: #1D3C6E;
+    background: linear-gradient(135deg, #1D3C6E, #2c5692);
     color: white;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-custom:hover {
+    background: linear-gradient(135deg, #2c5692, #1D3C6E);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(29, 60, 110, 0.3);
+}
+.form-control {
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+.form-control:focus {
+    border-color: #1D3C6E;
+    box-shadow: 0 0 0 0.2rem rgba(29, 60, 110, 0.25);
+}
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+.table thead th {
+    background: #1D3C6E;
+    color: white;
+    font-weight: 500;
+    padding: 15px;
+}
+.table tbody td {
+    padding: 15px;
+    vertical-align: middle;
 }

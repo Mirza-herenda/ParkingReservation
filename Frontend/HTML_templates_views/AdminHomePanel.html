@@ -18,11 +18,7 @@
         <div class="row">
             <!-- Leva strana - Zone Management -->
             <div class="col-lg-2 col-md-4">
-                <div class="card-custom p-3 border rounded">
-                    <h5>Capacity</h5>
-                    <p>80 / 100</p>
-                    <p>Available: 20</p>
-                </div>
+               
                 <div class="card-custom p-3 border rounded mt-2">
                     <h5>Zone Management</h5>
                   <div id="zoneTable"></div>
@@ -30,11 +26,63 @@
                 </div>
             </div>
     
-            <!-- Sredina - Grafikon -->
+            <!-- Sredina - Statistics Panel -->
             <div class="col-lg-5 col-md-6">
                 <div class="card-custom p-3 border rounded">
-                    <h5>Concurrent Parked Cars</h5>
-                    <canvas id="myChart" style="width:100%; max-width:600px !important;"></canvas>
+                    <h5 class="mb-4">Parking Statistics</h5>
+                    <div class="row g-3">
+                        <!-- Active Reservations -->
+                        <div class="col-6">
+                            <div class="p-3 border rounded bg-primary bg-opacity-10">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Active Reservations</h6>
+                                        <h3 class="mb-0" id="activeReservations">0</h3>
+                                    </div>
+                                    <i class="bi bi-calendar-check fs-1 text-primary opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Users -->
+                        <div class="col-6">
+                            <div class="p-3 border rounded bg-success bg-opacity-10">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Total Users</h6>
+                                        <h3 class="mb-0" id="totalUsers">0</h3>
+                                    </div>
+                                    <i class="bi bi-people fs-1 text-success opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Available Spots -->
+                        <div class="col-6">
+                            <div class="p-3 border rounded bg-warning bg-opacity-10">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Available Spots</h6>
+                                        <h3 class="mb-0" id="availableSpots">0</h3>
+                                    </div>
+                                    <i class="bi bi-p-square fs-1 text-warning opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Today's Revenue -->
+                        <div class="col-6">
+                            <div class="p-3 border rounded bg-info bg-opacity-10">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Today's Revenue</h6>
+                                        <h3 class="mb-0" id="todayRevenue">0 KM</h3>
+                                    </div>
+                                    <i class="bi bi-currency-dollar fs-1 text-info opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
     
@@ -66,49 +114,21 @@
     
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if Chart.js is loaded
-            if (typeof Chart === 'undefined') {
-                console.error("Chart.js is not loaded!");
-                return;
-            }
+    document.addEventListener("DOMContentLoaded", function () {
+        // Load statistics when page loads
+        RestClient.loadDashboardStats();
+        
+        // Existing code for reservations count
+        const activeReservationsEl = document.getElementById("activeReservations");
+        const activeReservationsCount = localStorage.getItem("reservationsCount");
 
-            const labels = ["January", "February", "March", "April", "May", "June", "July"];
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: "Concurrent Parked Cars",
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: "rgb(75, 192, 192)",
-                    backgroundColor: "rgb(75, 192, 192)",
-                    tension: 0.1
-                }]
-            };
-            const config = {
-                type: "line",
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { display: true },
-                    scales: {
-                        yAxes: [{
-                            ticks: { beginAtZero: true }
-                        }]
-                    }
-                }
-            };
-
-            // Initialize chart
-            const myChart = new Chart(document.getElementById("myChart"), config);
-            console.log("Chart initialized:", myChart);
-
-            // Delete row function
-            function deleteRow(button) {
-                button.closest('tr').remove();
-            }
-        });
+        if (activeReservationsEl && activeReservationsCount !== null) {
+            activeReservationsEl.innerText = activeReservationsCount;
+        } else {
+            activeReservationsEl.innerText = "0";
+        }
+        console.log("AdminHomePanel.js loaded", activeReservationsCount);
+    });
     </script>
 </body>
 </html>

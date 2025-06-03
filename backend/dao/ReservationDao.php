@@ -61,15 +61,14 @@ public function getAllWithDetails() {
 
 
 
-
-    public function insert($data) {
-        $columns = implode(", ", array_keys($data));
-        $placeholders = ":" . implode(", :", array_keys($data));
-        $sql = "INSERT INTO parkingreservations ($columns) VALUES ($placeholders)";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute($data);
-        return $this->connection->lastInsertId();
-    }
+public function insert($data) {
+    $columns = implode(", ", array_keys($data));
+    $placeholders = ":" . implode(", :", array_keys($data));
+    $sql = "INSERT INTO parkingreservations ($columns) VALUES ($placeholders)";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->execute($data);
+    return $this->connection->lastInsertId(); // Add this line to return the ID
+}
 
     public function update($entity, $id, $id_column = "id") {
         $fields = "";

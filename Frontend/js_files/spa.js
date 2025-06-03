@@ -1,5 +1,3 @@
-  
-
 let userRole = localStorage.getItem("userRole");
 
 if (userRole) {
@@ -25,6 +23,8 @@ class SPA {
   }
 
   getNavbar(route) {
+    const userName = localStorage.getItem("userName") || "Guest";
+    
     if (route.startsWith("admin-")) {
       return `
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1D3C6E;">
@@ -41,7 +41,7 @@ class SPA {
               </ul>
             </div>
             <div class="d-flex align-items-center">
-              <span id="user-role" class="text-white me-3">Admin</span>
+              <span id="user-role" class="text-white me-3">Welcome, Admin ${userName}</span>
               <button class="btn btn-outline-light" onclick="logout()">Logout</button>
             </div>
           </div>
@@ -62,7 +62,7 @@ class SPA {
               </ul>
             </div>
             <div class="d-flex align-items-center">
-              <span id="user-role" class="text-white me-3">User</span>
+              <span id="user-role" class="text-white me-3">Welcome, ${userName}</span>
               <button class="btn btn-outline-light" onclick="logout()">Logout</button>
             </div>
           </div>
@@ -116,23 +116,12 @@ class SPA {
 
   attachEventHandlers(route) {
     if(route === "admin-home") {
-    console.log("Loading users for admin...");
-      RestClient.loadAllUsers();
+        console.log("Loading admin dashboard stats...");
+        RestClient.loadDashboardStats();
+        RestClient.loadAllUsers();
+        RestClient.getZoneInformations();
     }
-    if (route === "user-home") {
-   
-      window.calculatePrice = function () {
-        const start = parseInt(document.getElementById("start").value) || 0;
-        const end = parseInt(document.getElementById("end").value) || 0;
-        if (end > start) {
-          const hours = end - start;
-          const price = hours * 3;
-          document.getElementById("price").innerText = price + " KM";
-        } else {
-          document.getElementById("price").innerText = "0 KM";
-        }
-      };
-    }
+  
 
   if (route === "user-home") {
   const userId = localStorage.getItem("userId"); // ✅ izvučeno iz localStorage
@@ -140,7 +129,17 @@ class SPA {
   console.log("Loading user data for user-home...",userId);
   RestClient.getReservationsByUserId(userId);
 }
+if(route === "user-personal") {
+  const userId = localStorage.getItem("userId"); // ✅ izvučeno iz localStorage
+
+  console.log("Loading user data for user-personal...", userId);
+  RestClient.getSingleUserEditable(userId);
+ 
+}
+
     if (route === "admin-home") {
+      console.log("Loading zone capacity...");
+            RestClient.loadReservations();
 
       console.log("Loading admin home...");
       // Chart initialization
@@ -182,8 +181,10 @@ class SPA {
           },
         },
       };
-      RestClient.getZoneInformations()
-
+      RestClient.getZoneInformations();
+      console.log("------->Loading reservations information for admin home...");
+          RestClient.loadReservations();
+     
       const canvas = document.getElementById("myChart");
       if (canvas) {
         if (window.myChart instanceof Chart) {
@@ -266,5 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function logout() {
   localStorage.removeItem("userRole");
+  localStorage.removeItem("userName"); // Add this line to clear username on logout
   spa.navigate("login");
 }

@@ -13,25 +13,53 @@
     
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .user-icon {
+            font-size: 48px;
+            color: #1D3C6E;
+            margin-bottom: 20px;
+        }
+        
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .update-btn {
+            background-color: #1D3C6E;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
     
 <div class="container container-custom">
     <!-- User Data Table -->
     <div class="card-custom" style="flex: 1;">
-        <h4 class="text-center">Moji Podaci</h4>
+        <div class="center-container">
+            <i class="bi bi-person-circle user-icon"></i>
+            <h4 class="text-center mb-4">Moji Podaci</h4>
+        </div>
     
-        <table class="table table-bordered" id="user-data-form">
-            <tr><th>Ime:</th><td><input type="text" class="form-control" id="firstName" value="Marko"></td></tr>
-            <tr><th>Prezime:</th><td><input type="text" class="form-control" id="lastName" value="Petrović"></td></tr>
-            <tr><th>Email:</th><td><input type="email" class="form-control" id="email" value="marko.petrovic@example.com"></td></tr>
-            <tr><th>Model Auta:</th><td><input type="text" class="form-control" id="carModel" value="Volkswagen Golf 7"></td></tr>
-            <tr><th>Tip Auta:</th><td><input type="text" class="form-control" id="carType" value="Hatchback"></td></tr>
-            <tr><th>Boja:</th><td><input type="text" class="form-control" id="carColor" value="Crna"></td></tr>
-            <tr><th>Registarska Tablica:</th><td><input type="text" class="form-control" id="licensePlate" value="SA-123-AB"></td></tr>
+        <table class="table table-bordered" id="user-form-container">
+            <!-- This content will be replaced by the JS -->
         </table>
         
-        <button class="btn btn-primary w-100" id="saveUserData" onclick=updateUserData() type="button">Spasi</button>
+        <div class="button-container">
+            <button class="btn update-btn" onclick="updateUserData()">Update User</button>
+        </div>
     </div>
 </div>
 
@@ -56,7 +84,12 @@ function checkDependencies() {
     return true;
 }
 
-// Update user data function
+
+  
+
+   
+
+
 </script>
 </body>
 </html>
