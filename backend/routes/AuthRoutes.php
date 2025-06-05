@@ -82,19 +82,32 @@ Flight::group('/auth', function() {
      */
   Flight::route('POST /login', function() {
     $data = Flight::request()->data->getData();
-
     $response = Flight::auth_service()->login($data);
 
     if ($response['success']) {
+        // Generate JWT token with user role
+        $token = JWT::encode([
+            'user' => [
+                'id' => $response['data']['id'],
+                'role' => $response['data']['role'],
+                'exp' => time() + 7200 // 2 hour expiration
+            ]
+        ], Config::JWT_SECRET(), 'HS256');
+
         Flight::json([
             'message' => 'User logged in successfully',
-            'data' => $response['data']
+            'token' => $token,
+            'data' => [
+                'id' => $response['data']['id'],
+                'name' => $response['data']['name'],
+                'role' => $response['data']['role']
+            ]
         ]);
     } else {
         Flight::json([
             'success' => false,
             'error' => $response['error']
-        ], 401); // 401 Unauthorized
+        ], 401);
     }
 });
 

@@ -19,6 +19,12 @@ class SPA {
         "Frontend/HTML_templates_views/AdminReservations.html",
     };
 
+    this.publicRoutes = ['login', 'register'];
+    this.protectedRoutes = {
+      admin: ['admin-home', 'admin-messages', 'admin-reservations'],
+      user: ['user-home', 'user-personal', 'user-contact']
+    };
+
     window.addEventListener("popstate", this.handleRoute.bind(this));
   }
 
@@ -71,6 +77,32 @@ class SPA {
   }
 
   async loadContent(route) {
+    // Check if route is public
+    if (!this.publicRoutes.includes(route)) {
+      const userRole = localStorage.getItem('userRole');
+      
+      // If no role, redirect to login
+      if (!userRole) {
+        toastr.warning("Molimo prijavite se prvo");
+        this.navigate('login');
+        return;
+      }
+
+      // Check admin routes
+      if (this.protectedRoutes.admin.includes(route) && userRole !== Constants.ADMIN_ROLE) {
+        toastr.error("Pristup zabranjen. Samo administratori mogu pristupiti ovoj stranici.");
+        this.navigate(userRole === Constants.USER_ROLE ? 'user-home' : 'login');
+        return;
+      }
+
+      // Check user routes
+      if (this.protectedRoutes.user.includes(route) && userRole !== Constants.USER_ROLE) {
+        toastr.error("Pristup zabranjen. Ova stranica je samo za korisnike.");
+        this.navigate(userRole === Constants.ADMIN_ROLE ? 'admin-home' : 'login');
+        return;
+      }
+    }
+
     try {
       const response = await fetch(this.routes[route]);
       if (!response.ok) throw new Error("Failed to load content");
@@ -83,8 +115,7 @@ class SPA {
 
       if (isAuthPage) {
         document.querySelector("#app").innerHTML = content;
-        document.body.style.backgroundImage =
-          'url("Frontend/static_assets/LogInBackground.png")';
+        document.body.style.backgroundImage = 'url("Frontend/static_assets/Logo.png")';
         document.body.style.height = "100vh";
         document.body.style.display = "flex";
       } else {
@@ -102,7 +133,7 @@ class SPA {
           </div>`;
         document.querySelector("#app").innerHTML = wrapper;
 
-        document.body.style.backgroundColor = "#f8f9fa";
+        document.body.style.backgroundColor = "#f0f2f5";
         document.body.style.backgroundImage = "none";
         document.body.style.height = "auto";
         document.body.style.display = "block";
@@ -111,6 +142,9 @@ class SPA {
       this.attachEventHandlers(route);
     } catch (error) {
       console.error("Error loading content:", error);
+      if (error.status === 401 || error.status === 403) {
+        window.location.href = '#login';
+      }
     }
   }
 
@@ -206,7 +240,13 @@ if(route === "user-personal") {
 
     if(route === "admin-messages") {
       console.log("Loading messages for admin...");
-      RestClient.getAllMessages();
+    RestClient.getAllMessages()
+        .catch(error => {
+            if (error.status === 403) {
+                alert("You don't have permission to access this feature");
+                spa.navigate('user-home'); // Redirect to user home page
+            }
+        });
     }
       // Load messages when admin-messages route is accessed
     if (route === "admin-reservations") {
@@ -265,8 +305,10 @@ document.addEventListener("DOMContentLoaded", () => {
   spa.handleRoute();
 });
 
+
 function logout() {
   localStorage.removeItem("userRole");
   localStorage.removeItem("userName"); // Add this line to clear username on logout
   spa.navigate("login");
 }
+

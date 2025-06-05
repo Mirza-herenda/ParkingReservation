@@ -22,6 +22,7 @@ Flight::group('/messages', function() {
      * )
      */
     Flight::route('GET /', function() {
+        
         Flight::json(Flight::messages_service()->get_all());
     });
 

@@ -1,5 +1,5 @@
 body {
-    background-color: #f4f7fc;
+    background: #f0f2f5;
     font-family: Arial, sans-serif;
 }
 .container {
@@ -10,34 +10,46 @@ body {
 
 }
 .card-custom {
-
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(29, 60, 110, 0.1) !important;
+    border-radius: 16px;
     padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 100%;
-    background: white;
-    border: 0.2px solid #1D3C6E !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-   
-
+    box-shadow: 0 4px 20px rgba(29, 60, 110, 0.05);
 }
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(29, 60, 110, 0.2);
+}
+
 .form-label {
     font-weight: bold;
     color: #1D3C6E;
 }
 .form-control {
-    border-radius: 8px;
+    border: 1px solid rgba(29, 60, 110, 0.1);
+    border-radius: 12px;
     padding: 12px;
-    font-size: 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+.form-control:focus {
+    border-color: #1D3C6E;
+    box-shadow: 0 0 0 4px rgba(29, 60, 110, 0.1);
+    background: white;
 }
 .btn-primary {
-    background-color: #1D3C6E;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 18px;
-    transition: 0.3s ease;
+    background: #4b75b5;
+    border-radius: 12px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 .btn-primary:hover {
-    background-color: #162d52;
+    background: linear-gradient(135deg, #2c5692, #1D3C6E);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 60, 110, 0.3);
 }

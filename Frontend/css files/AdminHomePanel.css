@@ -1,20 +1,69 @@
 body {
-    background-color: #f8f9fa;
+    background: #f0f2f5;
+    position: relative;
 }
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(240, 242, 245, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: -1;
+}
+
 .card-custom {
-    background: white;
-    border: 0.2px solid #1D3C6E !important;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.9);
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(29, 60, 110, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(29, 60, 110, 0.15);
+}
+
 .btn-custom {
-    background-color: #1D3C6E !important;
+    background: linear-gradient(135deg, #1D3C6E, #2c5692) !important;
     color: white !important;
-    width: 100%;
-    padding: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(29, 60, 110, 0.3);
+}
+
+.table {
+    border-radius: 16px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.table th {
+    background: #4571b8;
+    color: white;
+    font-weight: 500;
+    padding: 15px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(29, 60, 110, 0.1);
 }

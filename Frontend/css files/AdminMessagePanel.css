@@ -1,8 +1,25 @@
-.card-custom{
+.card-custom {
     background: white;
-    border: 0.2px solid #1D3C6E !important;
-    border-radius: 10px;
+    border: 1px solid rgba(29, 60, 110, 0.1) !important;
+    border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    border: 1px solid #ddd;
+    box-shadow: 0 4px 20px rgba(29, 60, 110, 0.05);
+}
+
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(29, 60, 110, 0.1);
+}
+
+.table th {
+    background: #4b75b5;
+    color: white;
+    font-weight: 500;
+    padding: 12px 15px;
+}
+
+.table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(29, 60, 110, 0.05);
 }
