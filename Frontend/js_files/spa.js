@@ -7,8 +7,8 @@ if (userRole) {
 class SPA {
   constructor() {
     this.routes = {
-      login: "Frontend/HTML_templates_views/login.html",
-      register: "Frontend/HTML_templates_views/registration.html",
+      "login": "Frontend/HTML_templates_views/login.html",
+      "register": "Frontend/HTML_templates_views/registration.html",
       "user-home": "Frontend/HTML_templates_views/HomePage.html",
       "user-personal":
         "Frontend/HTML_templates_views/HomeScreenMojiPodaci.html",
@@ -23,6 +23,8 @@ class SPA {
   }
 
   getNavbar(route) {
+    const userName = localStorage.getItem("userName") || "Guest";
+    
     if (route.startsWith("admin-")) {
       return `
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1D3C6E;">
@@ -39,7 +41,7 @@ class SPA {
               </ul>
             </div>
             <div class="d-flex align-items-center">
-              <span id="user-role" class="text-white me-3">Admin</span>
+              <span id="user-role" class="text-white me-3">Welcome, Admin ${userName}</span>
               <button class="btn btn-outline-light" onclick="logout()">Logout</button>
             </div>
           </div>
@@ -60,7 +62,7 @@ class SPA {
               </ul>
             </div>
             <div class="d-flex align-items-center">
-              <span id="user-role" class="text-white me-3">User</span>
+              <span id="user-role" class="text-white me-3">Welcome, ${userName}</span>
               <button class="btn btn-outline-light" onclick="logout()">Logout</button>
             </div>
           </div>
@@ -113,21 +115,33 @@ class SPA {
   }
 
   attachEventHandlers(route) {
-    if (route === "user-home") {
-      window.calculatePrice = function () {
-        const start = parseInt(document.getElementById("start").value) || 0;
-        const end = parseInt(document.getElementById("end").value) || 0;
-        if (end > start) {
-          const hours = end - start;
-          const price = hours * 3;
-          document.getElementById("price").innerText = price + " KM";
-        } else {
-          document.getElementById("price").innerText = "0 KM";
-        }
-      };
+    if(route === "admin-home") {
+        console.log("Loading admin dashboard stats...");
+        RestClient.loadDashboardStats();
+        RestClient.loadAllUsers();
+        RestClient.getZoneInformations();
     }
+  
+
+  if (route === "user-home") {
+  const userId = localStorage.getItem("userId"); // ✅ izvučeno iz localStorage
+  RestClient.getSingleUser(userId);
+  console.log("Loading user data for user-home...",userId);
+  RestClient.getReservationsByUserId(userId);
+}
+if(route === "user-personal") {
+  const userId = localStorage.getItem("userId"); // ✅ izvučeno iz localStorage
+
+  console.log("Loading user data for user-personal...", userId);
+  RestClient.getSingleUserEditable(userId);
+ 
+}
 
     if (route === "admin-home") {
+      console.log("Loading zone capacity...");
+            RestClient.loadReservations();
+
+      console.log("Loading admin home...");
       // Chart initialization
       const labels = [
         "January",
@@ -167,7 +181,10 @@ class SPA {
           },
         },
       };
-
+      RestClient.getZoneInformations();
+      console.log("------->Loading reservations information for admin home...");
+          RestClient.loadReservations();
+     
       const canvas = document.getElementById("myChart");
       if (canvas) {
         if (window.myChart instanceof Chart) {
@@ -183,7 +200,48 @@ class SPA {
       window.deleteRow = function (button) {
         button.closest("tr").remove();
       };
+    }else{
+      console.log("No specific event handlers for this route.");
     }
+
+    if(route === "admin-messages") {
+      console.log("Loading messages for admin...");
+      RestClient.getAllMessages();
+    }
+      // Load messages when admin-messages route is accessed
+    if (route === "admin-reservations") {
+      // Load reservations when admin-reservations route is accessed
+      console.log("Loading reservations for admin...");
+      RestClient.loadReservations();
+      
+      // You can add additional event handlers specific to admin reservations here
+      // For example, handling cancel or details buttons
+      document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('btn-danger')) {
+          // Handle cancel button click
+          const reservationId = e.target.dataset.id; // You'd need to add this data attribute
+          if (confirm('Are you sure you want to cancel this reservation?')) {
+            RestClient.delete(`parkingreservations/${reservationId}`, {}, 
+              function() {
+                // Success callback - refresh the list
+                RestClient.loadReservations();
+              },
+              function(err) {
+                console.error('Error cancelling reservation:', err);
+                alert('Failed to cancel reservation');
+              }
+            );
+          }
+        }
+        
+        if (e.target && e.target.classList.contains('btn-primary')) {
+          // Handle details button click
+          const reservationId = e.target.dataset.id;
+          // Implement details view logic here
+        }
+      });
+    }
+  
   }
 
   navigate(route) {
@@ -209,5 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function logout() {
   localStorage.removeItem("userRole");
+  localStorage.removeItem("userName"); // Add this line to clear username on logout
   spa.navigate("login");
 }

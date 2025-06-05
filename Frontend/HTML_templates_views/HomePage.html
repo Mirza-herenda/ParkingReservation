@@ -5,131 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezervacija Parking Mjesta</title>
     <link rel="stylesheet" href="../../Frontend/css files/AdminHomePanel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
     <!-- ✅ Bootstrap CSS -->
     <link 
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
         rel="stylesheet">
     
-
+    <style>
+        .card-custom {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #eaeaea;
+            transition: all 0.3s ease;
+        }
+        
+        .card-custom:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .user-info-table {
+            width: 100%;
+        }
+        
+        .user-info-table td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .user-info-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .user-info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .page-title {
+            color: #3a3a3a;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom:hover {
+            background-color: #0069d9;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
     <div class="container mt-4">
+        <h2 class="text-center page-title">Sistem za Rezervaciju Parking Mjesta</h2>
+        
         <div class="row g-4">
-            <!-- ✅ User Data -->
-            <div class="col-md-4">
-                <div class="card-custom p-3">
-                    <h4 class="text-center">Moji Podaci</h4>
-                    <table class="table">
-                        <tr><th>Ime:</th><td><input type="text" class="form-control" value="Marko"></td></tr>
-                        <tr><th>Prezime:</th><td><input type="text" class="form-control" value="Petrović"></td></tr>
-                        <tr><th>Email:</th><td><input type="email" class="form-control" value="marko.petrovic@example.com"></td></tr>
-                        <tr><th>Model Auta:</th><td><input type="text" class="form-control" value="Golf 7"></td></tr>
-                        <tr><th>Boja:</th><td><input type="text" class="form-control" value="Crna"></td></tr>
-                        <tr><th>Tablica:</th><td><input type="text" class="form-control" value="SA-123-AB"></td></tr>
+            <!-- ✅ User Data - Made wider -->
+            <div class="col-md-6">
+                <div class="card-custom p-4">
+                    <h4 class="text-center mb-3">Moji Podaci</h4>
+                    <table class="user-info-table" id="user-form-container">
+                        <tr>
+                            <td class="user-info-label">Ime i Prezime:</td>
+                            <td id="user-name">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Email Adresa:</td>
+                            <td id="user-email">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Broj Telefona:</td>
+                            <td id="user-phone">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Registracija Vozila:</td>
+                            <td id="user-vehicle">-</td>
+                        </tr>
+                        <tr>
+                            <td class="user-info-label">Članstvo:</td>
+                            <td id="user-membership">Standardno</td>
+                        </tr>
                     </table>
-                    <button class="btn btn-custom" onclick="calculatePrice()">Spasi</button>
                 </div>
             </div>
             
-            <!-- ✅ Parking Reservation -->
-            <div class="col-md-4">
-                <div class="card-custom p-3">
-                    <h5 class="text-center">Rezervacija Parking Mjesta</h5>
-                    <p><strong>Lokacija:</strong> Grbavička 34</p>
-                    <p><strong>Email podrške:</strong> <a href="mailto:support@parkiraj.me">support@parkiraj.me</a></p>
+            <!-- ✅ Parking Reservation - Adjusted size -->
+           <div class="col-md-6">
+                <form class="card-custom p-4" id="parking-spot-form">
+                    <h4 class="text-center mb-3">Rezervacija Parking Mjesta</h4>
+                    <div class="mb-3">
+                        <p><strong>Lokacija:</strong> Grbavička 34</p>
+                        <p><strong>Email podrške:</strong> <a href="mailto:support@parkiraj.me">support@parkiraj.me</a></p>
+                        <p id="status"><strong>Status:</strong> <span style="color: green; font-weight: bold;">Available</span></p>
+                    </div>
                     
                     <!-- Zone Selection -->
-                    <label for="zone">Zona:</label>
-                    <select id="zone" class="form-control mb-2">
-                        <option value="zone1">Zone 1</option>
-                        <option value="zone2">Zone 2</option>
-                   
-                    </select>
+                    <div class="mb-3">
+                        <label for="zone" class="form-label">Zona:</label>
+                        <select id="zone" class="form-select" onchange="calculatePrice()">
+                            <option id="zone" value="1">1</option>
+                        </select>
+                    </div>
                     
-                    <label for="start">Početak (h):</label>
-                    <input type="number" id="start" class="form-control mb-2" placeholder="00" min="0" max="23">
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="duration1h" value="1" checked onchange="calculatePrice()">
+                            <label class="form-check-label" for="duration1h">1h</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="duration2h" value="2" onchange="calculatePrice()">
+                            <label class="form-check-label" for="duration2h">2h</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="durationHalf" value="6" onchange="calculatePrice()">
+                            <label class="form-check-label" for="durationHalf">Poludnevna (6h)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="duration" id="durationFull" value="12" onchange="calculatePrice()">
+                            <label class="form-check-label" for="durationFull">Dnevna (12h)</label>
+                        </div>
+                    </div>
                     
-                    <label for="end">Kraj (h):</label>
-                    <input type="number" id="end" class="form-control mb-2" placeholder="00" min="0" max="23">
-                    
-                    <h3 class="text-center mt-3" id="price">0 KM</h3>
-                    <button class="btn btn-custom" onclick="calculatePrice()">Rezerviši</button>
-                </div>
+                    <h3 class="text-center my-3" id="totalPrice">2 KM</h3>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-custom" onclick="saveUserData()">Rezerviši</button>
+                    </div>
+                </form>
             </div>
             
-            <!-- ✅ Last Reservations -->
-            <div class="col-md-4">
-                <div class="card-custom p-3">
-                    <h5 class="text-center">Moje Zadnje Rezervacije</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Adresa</th>
-                                <th>Sat</th>
-                                <th>Cijena</th>
-                                <th>poruke</th>
-                                <th></th>
-
-                            </tr>
-                        </thead>
-                        <tbody id="rezervacije">
-                            <tr>
-                                <td>Grbavička 34</td>
-                                <td>2h</td>
-                                <td>6 KM</td>
-                                <td></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="obrisi(this)">Obriši</button></td>
-                            </tr>
-                            <tr>
-                                <td>Maršala Tita 5</td>
-                                <td>1h</td>
-                                <td>3 KM</td>
-                                <td></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="obrisi(this)">Obriši</button></td>
-                            </tr>
-                            <tr>
-                                <td>Ferhadija 12</td>
-                                <td>3h</td>
-                                <td>9 KM</td>
-                                <td></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="obrisi(this)">Obriši</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn btn-danger w-100 mt-2" onclick="obrisiSve()">Obriši Sve</button>
+            <!-- ✅ Last Reservations - Full width -->
+            <div class="col-12 mt-4">
+                <div class="card-custom p-4">
+                    <h4 class="text-center mb-3">Moje Zadnje Rezervacije</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Adresa</th>
+                                    <th>Datum</th>
+                                   
+                                    <th>Cijena</th>
+                                   
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservation-table">
+                                <!-- Reservation data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            
-            <script>
-                function obrisi(btn) {
-                    btn.closest("tr").remove();
-                }
-            
-                function obrisiSve() {
-                    document.getElementById("rezervacije").innerHTML = "";
-                }
-            </script>
-            
         </div>
     </div>
-
-    <!-- ✅ JavaScript -->
-    <script>
-        function calculatePrice() {
-            const start = parseInt(document.getElementById('start').value) || 0;
-            const end = parseInt(document.getElementById('end').value) || 0;
-            
-            if (end > start) {
-                const hours = end - start;
-                const price = hours * 3; // 3 KM po satu
-                document.getElementById('price').innerText = price + ' KM';
-            } else {
-                document.getElementById('price').innerText = '0 KM';
-            }
-        }
-    </script>
 
     <!-- ✅ Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

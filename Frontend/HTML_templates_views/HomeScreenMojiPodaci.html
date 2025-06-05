@@ -5,44 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeScreen</title>
     
-    <!-- ✅ Bootstrap CSS -->
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-        rel="stylesheet"
-    >
-    <!-- ✅ Bootstrap Icons -->
-    <link 
-        rel="stylesheet" 
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-    >
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="/Frontend/css files/HomeScreenMojiPodaci.css">
-   
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .user-icon {
+            font-size: 48px;
+            color: #1D3C6E;
+            margin-bottom: 20px;
+        }
+        
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .update-btn {
+            background-color: #1D3C6E;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
- 
     
-    <div class="container container-custom">
-        <!-- ✅ User Data Table -->
-        <div class="card-custom" style="flex: 1;">
-            <h4 class="text-center">Moji Podaci</h4>
-           
-            <table class="table table-bordered">
-                <tr><th>Ime:</th><td><input type="text" class="form-control" value="Marko"></td></tr>
-                <tr><th>Prezime:</th><td><input type="text" class="form-control" value="Petrović"></td></tr>
-                <tr><th>Email:</th><td><input type="email" class="form-control" value="marko.petrovic@example.com"></td></tr>
-                <tr><th>Model Auta:</th><td><input type="text" class="form-control" value="Volkswagen Golf 7"></td></tr>
-                <tr><th>Tip Auta:</th><td><input type="text" class="form-control" value="Hatchback"></td></tr>
-                <tr><th>Boja:</th><td><input type="text" class="form-control" value="Crna"></td></tr>
-                <tr><th>Registarska Tablica:</th><td><input type="text" class="form-control" value="SA-123-AB"></td></tr>
-            </table>
-            
-            <button class="btn btn-primary w-100">Spasi</button>
+<div class="container container-custom">
+    <!-- User Data Table -->
+    <div class="card-custom" style="flex: 1;">
+        <div class="center-container">
+            <i class="bi bi-person-circle user-icon"></i>
+            <h4 class="text-center mb-4">Moji Podaci</h4>
         </div>
     
-      
+        <table class="table table-bordered" id="user-form-container">
+            <!-- This content will be replaced by the JS -->
+        </table>
+        
+        <div class="button-container">
+            <button class="btn update-btn" onclick="updateUserData()">Update User</button>
+        </div>
     </div>
-    
-    <!-- ✅ Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+
+<!-- REQUIRED SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
+<script src="/Frontend/utils/constants.js" defer></script>
+<script src="/Frontend/utils/rest-client.js" defer></script>
+
+<script>
+// Debugging function to check if RestClient is available
+function checkDependencies() {
+    if (!window.RestClient) {
+        console.error('RestClient is not defined!');
+        return false;
+    }
+    if (!window.toastr) {
+        console.error('toastr is not defined!');
+        return false;
+    }
+    return true;
+}
+
+
+  
+
+   
+
+
+</script>
 </body>
 </html>

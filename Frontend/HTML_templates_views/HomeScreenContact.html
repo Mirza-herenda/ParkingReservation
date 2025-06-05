@@ -21,7 +21,7 @@
         <div class="card-custom">
             <h2 class="text-center mb-4" style="color: #1D3C6E;">Contact Support</h2>
 
-            <form>
+            <form id="contactForm" onsubmit="sendMessage(event)">
                 <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
@@ -41,7 +41,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary w-100">Send</button>
+                <button type="submit" class="btn btn-primary w-100">Send Message</button>
             </form>
         </div>
     </div>
