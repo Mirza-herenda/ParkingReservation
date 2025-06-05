@@ -1,18 +1,20 @@
 body {
-    background: #f8f9fa;
-    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa !important;
 }
+
+
 .card-custom {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(190, 185, 185, 0.301);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(29, 60, 110, 0.05);
+    border: 1px solid rgba(29, 60, 110, 0.1);
+    transition: transform 0.3s ease;
 }
 .card-custom:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 35px rgba(29, 60, 110, 0.2);
+    border-color: #2c5692;
 }
 .btn-custom {
     background: linear-gradient(135deg, #1D3C6E, #2c5692);
@@ -40,15 +42,14 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(29, 60, 110, 0.25);
 }
 .table {
+    border: 1px solid rgba(29, 60, 110, 0.1);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(29, 60, 110, 0.05);
 }
 .table thead th {
-    background: #1D3C6E;
-    color: white;
-    font-weight: 500;
-    padding: 15px;
+    background: #4b75b5;
+    padding: 12px 15px;
 }
 .table tbody td {
     padding: 15px;

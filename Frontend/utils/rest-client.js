@@ -21,11 +21,73 @@ let RestClient = {
     });
   },
 
+  checkAuthorization: function (route) {
+    const userRole = localStorage.getItem("userRole");
+    const token = localStorage.getItem("token");
+
+    // Configure toastr options for errors
+    toastr.options = {
+      closeButton: true,
+      progressBar: true,
+      positionClass: "toast-top-right",
+      timeOut: 3000,
+      extendedTimeOut: 1000,
+      showEasing: "swing",
+      hideEasing: "linear",
+      showMethod: "fadeIn",
+      hideMethod: "fadeOut",
+    };
+
+    if (!token) {
+      toastr.error("🚫 Molimo prijavite se prvo", "Pristup Zabranjen");
+      window.location.href = "#login";
+      return false;
+    }
+
+    // Protected routes mapping
+    const protectedRoutes = {
+      "admin-home": "admin",
+      "admin-messages": "admin",
+      "admin-reservations": "admin",
+      "user-home": "user",
+      "user-personal": "user",
+      "user-contact": "user",
+    };
+
+    // Check if route is protected
+    if (protectedRoutes[route]) {
+      if (protectedRoutes[route] === "admin" && userRole !== Constants.ADMIN_ROLE) {
+        toastr.error(
+          "🚫 Pristup zabranjen. Samo administratori mogu pristupiti ovoj stranici.",
+          "Neovlašteni Pristup"
+        );
+        window.location.href = "#user-home";
+        return false;
+      }
+
+      if (protectedRoutes[route] === "user" && userRole !== Constants.USER_ROLE) {
+        toastr.error(
+          "🚫 Pristup zabranjen. Ova stranica je samo za korisnike.",
+          "Neovlašteni Pristup"
+        );
+        window.location.href = "#admin-home";
+        return false;
+      }
+    }
+
+    return true;
+  },
+
   request: function (url, method, data, callback, error_callback) {
+    const token = localStorage.getItem("token");
+
     $.ajax({
       url: Constants.PROJECT_BASE_URL + url,
       type: method,
       contentType: "application/json",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       data: JSON.stringify(data),
       success: function (response) {
         // Show toastr only for specific actions
@@ -46,6 +108,12 @@ let RestClient = {
       },
       error: function (jqXHR) {
         console.error("Request failed:", jqXHR);
+        if (jqXHR.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userRole");
+          localStorage.removeItem("userId");
+          window.location.href = "#login";
+        }
         // Show error toastr only for user-facing actions
         if (
           url.includes("auth") ||
@@ -82,7 +150,7 @@ let RestClient = {
       "messages",
       function (data) {
         console.log("Server response messages:", data);
-       // toastr.success("Poruke uspješno učitane.");
+        // toastr.success("Poruke uspješno učitane.");
 
         // Pretpostavljam da server vraća objekat sa poljem 'data' koje je niz poruka
         if (!data || !Array.isArray(data)) {
@@ -149,7 +217,7 @@ let RestClient = {
       "zones",
       function (data) {
         console.log("Server response zones:", data);
-       // toastr.success("Zone uspješno učitane.");
+        // toastr.success("Zone uspješno učitane.");
 
         if (!data || !Array.isArray(data)) {
           console.error("Expected an array in data, got:", data);
@@ -275,21 +343,13 @@ let RestClient = {
       },
     });
   },
+  // Update the login function
   login: function (email, password, callback, error_callback) {
-    // Configure toastr
     toastr.options = {
       closeButton: true,
       progressBar: true,
       positionClass: "toast-top-right",
       timeOut: 3000,
-      extendedTimeOut: 1000,
-      showMethod: 'fadeIn',
-      hideMethod: 'fadeOut',
-      closeMethod: 'fadeOut',
-      tapToDismiss: true,
-      preventDuplicates: true,
-      // Adding specific styling for success messages
-      successClass: "toast-success"
     };
 
     $.ajax({
@@ -298,17 +358,13 @@ let RestClient = {
       contentType: "application/json",
       data: JSON.stringify({ email: email, password: password }),
       success: function (response) {
-        // Use success with options
-        toastr.success("Prijava uspješna", "Uspjeh", {
-          timeOut: 3000,
-          closeButton: true,
-          progressBar: true,
-          preventDuplicates: true,
-          positionClass: "toast-top-right",
-        });
-        console.log("Login successful:", response);
+        // Store the token
+        localStorage.setItem("token", response.token);
         localStorage.setItem("userId", response.data.id);
         localStorage.setItem("userRole", response.data.role);
+        localStorage.setItem("userName", response.data.name);
+
+        toastr.success("Prijava uspješna");
         callback(response.data);
       },
       error: function (jqXHR) {
@@ -583,13 +639,15 @@ let RestClient = {
             const totalPrice = (duration * zonePrice).toFixed(2);
 
             // Format date properly
-            const dateObj = new Date(reservation.startTime.split('.').reverse().join('-'));
-            const formattedDate = dateObj.toLocaleString('bs-BA', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
+            const dateObj = new Date(
+              reservation.startTime.split(".").reverse().join("-")
+            );
+            const formattedDate = dateObj.toLocaleString("bs-BA", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
             });
 
             const row = document.createElement("tr");
@@ -875,46 +933,48 @@ let RestClient = {
     return `${Math.round(diff)} minutes`;
   },
 
-  sendMessage: function(messageData, callback, error_callback) {
+  sendMessage: function (messageData, callback, error_callback) {
     if (!messageData.emailAdress || !messageData.title || !messageData.message) {
-        toastr.error("Please fill in all required fields");
-        return;
+      toastr.error("Please fill in all required fields");
+      return;
     }
 
     RestClient.post(
-        '/messages',
-        messageData,
-        function(response) {
-            console.log("✅ Message sent successfully:", response);
-            if (callback) callback(response);
-        },
-        function(error) {
-            console.error("❌ Failed to send message:", error);
-            if (error_callback) error_callback(error);
-        }
+      "/messages",
+      messageData,
+      function (response) {
+        console.log("✅ Message sent successfully:", response);
+        if (callback) callback(response);
+      },
+      function (error) {
+        console.error("❌ Failed to send message:", error);
+        if (error_callback) error_callback(error);
+      }
     );
   },
 
   // Add this method to RestClient
-  loadDashboardStats: function() {
+  loadDashboardStats: function () {
     RestClient.get(
-        "api/statistics",
-        function(response) {
-            if (response.success && response.data) {
-                const stats = response.data;
-                document.getElementById("activeReservations").textContent = stats.reservations || '0';
-                document.getElementById("totalUsers").textContent = stats.users || '0';
-                document.getElementById("availableSpots").textContent = stats.availableSpots || '0';
-                document.getElementById("todayRevenue").textContent = (stats.revenue || '0') + " KM";
-            } else {
-                console.error("Invalid statistics response:", response);
-            }
-        },
-        function(error) {
-            console.error("Error loading dashboard stats:", error);
-            toastr.error("Failed to load dashboard statistics");
+      "api/statistics",
+      function (response) {
+        if (response.success && response.data) {
+          const stats = response.data;
+          document.getElementById("activeReservations").textContent =
+            stats.reservations || "0";
+          document.getElementById("totalUsers").textContent = stats.users || "0";
+          document.getElementById("availableSpots").textContent =
+            stats.availableSpots || "0";
+          document.getElementById("todayRevenue").textContent =
+            (stats.revenue || "0") + " KM";
+        } else {
+          console.error("Invalid statistics response:", response);
         }
+      },
+      function (error) {
+        console.error("Error loading dashboard stats:", error);
+        toastr.error("Failed to load dashboard statistics");
+      }
     );
   },
-
 };

@@ -1,11 +1,16 @@
+body {
+    background: #f0f2f5;
+}
+
 .card-custom {
     background: white;
-    border: 0.2px solid #1D3C6E !important;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    border: 1px solid #ddd;
+    border: 2px solid #1D3C6E !important;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(29, 60, 110, 0.1);
+    margin: 20px;
 }
+
 /* Ensure card-custom doesn’t override table styling */
 .card-custom {
     background: white;
@@ -30,4 +35,31 @@
 /* Alternating row color */
 .table-light {
     background-color: #e9ecef; /* Light gray for even rows */
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #1D3C6E;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: #1D3C6E;
+    color: white;
+    padding: 15px;
+    font-weight: 500;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(29, 60, 110, 0.1);
+}
+
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(29, 60, 110, 0.1);
 }

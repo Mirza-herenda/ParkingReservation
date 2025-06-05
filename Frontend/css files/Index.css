@@ -3,51 +3,71 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #1D3C6E, #2c5692);
+    background: url('../../Frontend/static_assets/Logo.png') no-repeat center center fixed;
+    background-size: cover;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(29, 60, 110, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: -1;
 }
 
 .login-container {
     width: 100%;
     max-width: 450px;
-    padding: 2rem;
-    border-radius: 20px;
+    padding: 2.5rem;
+    border-radius: 24px;
     background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .login-container:hover {
     transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
-.form-control, .form-select {
-    border: 2px solid #eee;
-    padding: 12px;
-    border-radius: 12px;
+.form-control {
+    border: 2px solid rgba(29, 60, 110, 0.1);
+    padding: 14px;
+    border-radius: 16px;
+    font-size: 1rem;
     transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus {
     border-color: #1D3C6E;
-    box-shadow: 0 0 0 0.2rem rgba(29, 60, 110, 0.25);
+    box-shadow: 0 0 0 4px rgba(29, 60, 110, 0.1);
+    background: white;
 }
 
 .btn-primary {
-    background: #1D3C6E;
+    background: linear-gradient(135deg, #1D3C6E, #2c5692);
     border: none;
-    padding: 12px;
-    border-radius: 12px;
+    padding: 14px;
+    border-radius: 16px;
     font-weight: 600;
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #2c5692;
+    background: linear-gradient(135deg, #2c5692, #1D3C6E);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(29, 60, 110, 0.3);
+    box-shadow: 0 8px 20px rgba(29, 60, 110, 0.4);
 }
 
 /* Dashboard styles */
